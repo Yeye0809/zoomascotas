@@ -100,7 +100,13 @@ public class FrZoomascotas extends javax.swing.JFrame {
         cbZoologicoTr = new javax.swing.JComboBox<>();
         lbZoologicoTr = new javax.swing.JLabel();
         lbTraslado = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        btnRegistrarTr = new javax.swing.JButton();
+        btnActualizarTr = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        btnListarTr = new javax.swing.JButton();
+        txtBuscarTr = new javax.swing.JTextField();
+        jSeparator15 = new javax.swing.JSeparator();
         cardAnimal = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lbNombreAn = new javax.swing.JLabel();
@@ -350,21 +356,53 @@ public class FrZoomascotas extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         jLabel1.setText("TRANSFERENCIA");
-        cardTransferencia.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
+        cardTransferencia.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
 
-        cardTransferencia.add(cbAnimalTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 150, -1));
+        cardTransferencia.add(cbAnimalTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 150, -1));
 
+        lbAnimalTr.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         lbAnimalTr.setText("Animal");
-        cardTransferencia.add(lbAnimalTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, -1, -1));
+        cardTransferencia.add(lbAnimalTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, -1, -1));
 
-        cardTransferencia.add(cbZoologicoTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 150, -1));
+        cardTransferencia.add(cbZoologicoTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, 150, -1));
 
+        lbZoologicoTr.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         lbZoologicoTr.setText("Zoologico");
-        cardTransferencia.add(lbZoologicoTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, -1, -1));
+        cardTransferencia.add(lbZoologicoTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, -1, -1));
 
+        lbTraslado.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         lbTraslado.setText("Fecha traslado");
-        cardTransferencia.add(lbTraslado, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, -1, -1));
-        cardTransferencia.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, 150, -1));
+        cardTransferencia.add(lbTraslado, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
+        cardTransferencia.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, 130, -1));
+
+        btnRegistrarTr.setBackground(new java.awt.Color(59, 130, 246));
+        btnRegistrarTr.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        btnRegistrarTr.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarTr.setText("Registrar");
+        cardTransferencia.add(btnRegistrarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, 110, 40));
+
+        btnActualizarTr.setBackground(new java.awt.Color(21, 124, 48));
+        btnActualizarTr.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizarTr.setText("Actualizar");
+        cardTransferencia.add(btnActualizarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 110, 40));
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(59, 130, 246));
+        jButton3.setText("Buscar");
+        cardTransferencia.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 240, 90, 30));
+
+        btnListarTr.setBackground(new java.awt.Color(255, 255, 255));
+        btnListarTr.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
+        btnListarTr.setForeground(new java.awt.Color(59, 130, 246));
+        btnListarTr.setText("Listar");
+        cardTransferencia.add(btnListarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 90, 30));
+
+        txtBuscarTr.setBorder(null);
+        cardTransferencia.add(txtBuscarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 248, 110, 20));
+
+        jSeparator15.setForeground(new java.awt.Color(0, 0, 0));
+        cardTransferencia.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 270, 110, 10));
 
         pnlCardLayout.add(cardTransferencia, "cardTrans");
 
@@ -793,6 +831,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JPanel bgPnlContent;
     private javax.swing.JButton btnActualizarAn;
     private javax.swing.JButton btnActualizarCu;
+    private javax.swing.JButton btnActualizarTr;
     private javax.swing.JButton btnActualizarZoo;
     private javax.swing.JLabel btnAnimal;
     private javax.swing.JButton btnBuscarAn;
@@ -802,9 +841,11 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnListar;
     private javax.swing.JButton btnListarAn;
+    private javax.swing.JButton btnListarTr;
     private javax.swing.JButton btnListarZoo;
     private javax.swing.JButton btnRegistrarAn;
     private javax.swing.JButton btnRegistrarCu;
+    private javax.swing.JButton btnRegistrarTr;
     private javax.swing.JButton btnRegistrarZoo;
     private javax.swing.JLabel btnReporte;
     private javax.swing.JLabel btnTransferencia;
@@ -821,6 +862,8 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbGeneroCu;
     private javax.swing.JComboBox<String> cbTipoAn;
     private javax.swing.JComboBox<Zoologico> cbZoologicoTr;
+    private javax.swing.JButton jButton3;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -833,6 +876,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -841,7 +885,6 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbAnimalTr;
     private javax.swing.JLabel lbApellidoCu;
     private javax.swing.JLabel lbCedula;
@@ -871,6 +914,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JTextField txtApellidoCu;
     private javax.swing.JTextField txtBuscarAn;
     private javax.swing.JTextField txtBuscarCu;
+    private javax.swing.JTextField txtBuscarTr;
     private javax.swing.JTextField txtBuscarZoo;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCiudadZoo;
