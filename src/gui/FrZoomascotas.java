@@ -9,6 +9,7 @@ import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JPanel;
 import DAOs.CuidadorDAO;
+import DAOs.TransferenciaDAO;
 import DAOs.ZoologicoDAO;
 import modelo.*;
 
@@ -27,6 +28,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private static CuidadorDAO cuDAO = new CuidadorDAO();
     private static ZoologicoDAO zooDAO = new ZoologicoDAO();
     private static AnimalDAO anDAO = new AnimalDAO();
+    private static TransferenciaDAO trDAO = new TransferenciaDAO();
     
     private  void showCard(String card){
         CardLayout cl = (CardLayout)pnlCardLayout.getLayout();
@@ -100,7 +102,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         cbZoologicoTr = new javax.swing.JComboBox<>();
         lbZoologicoTr = new javax.swing.JLabel();
         lbTraslado = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        txtFechaSalida = new com.toedter.calendar.JDateChooser();
         btnRegistrarTr = new javax.swing.JButton();
         btnActualizarTr = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -373,12 +375,13 @@ public class FrZoomascotas extends javax.swing.JFrame {
         lbTraslado.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         lbTraslado.setText("Fecha traslado");
         cardTransferencia.add(lbTraslado, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, -1, -1));
-        cardTransferencia.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, 130, -1));
+        cardTransferencia.add(txtFechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, 130, -1));
 
         btnRegistrarTr.setBackground(new java.awt.Color(59, 130, 246));
         btnRegistrarTr.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnRegistrarTr.setForeground(new java.awt.Color(255, 255, 255));
         btnRegistrarTr.setText("Registrar");
+        btnRegistrarTr.addActionListener(this::btnRegistrarTrActionPerformed);
         cardTransferencia.add(btnRegistrarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, 110, 40));
 
         btnActualizarTr.setBackground(new java.awt.Color(21, 124, 48));
@@ -396,6 +399,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         btnListarTr.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
         btnListarTr.setForeground(new java.awt.Color(59, 130, 246));
         btnListarTr.setText("Listar");
+        btnListarTr.addActionListener(this::btnListarTrActionPerformed);
         cardTransferencia.add(btnListarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 90, 30));
 
         txtBuscarTr.setBorder(null);
@@ -656,6 +660,12 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnimalMouseClicked
 
     private void btnTransferenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransferenciaMouseClicked
+        cbAnimalTr.removeAllItems();
+        cbAnimalTr.addItem(null);
+        anDAO.cargarAnimal(cbAnimalTr);
+        cbZoologicoTr.removeAllItems();
+        cbZoologicoTr.addItem(null);
+        zooDAO.cargarZoo(cbZoologicoTr);
         showCard("cardTrans");
     }//GEN-LAST:event_btnTransferenciaMouseClicked
 
@@ -801,6 +811,20 @@ public class FrZoomascotas extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar el animal");
     }//GEN-LAST:event_btnActualizarAnActionPerformed
 
+    private void btnRegistrarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarTrActionPerformed
+        Animal an = (Animal)cbAnimalTr.getSelectedItem();
+        Zoologico zoo = (Zoologico)cbZoologicoTr.getSelectedItem();
+        
+        if(trDAO.registrar(new Transferencia(an.getIdA(), zoo.getId(), txtFechaSalida.getDate())))
+            javax.swing.JOptionPane.showMessageDialog(null, "Transferencia registrada");
+        else
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al registrar transferencia");
+    }//GEN-LAST:event_btnRegistrarTrActionPerformed
+
+    private void btnListarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarTrActionPerformed
+        trDAO.listar(tabla);
+    }//GEN-LAST:event_btnListarTrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -863,7 +887,6 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbTipoAn;
     private javax.swing.JComboBox<Zoologico> cbZoologicoTr;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -923,6 +946,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JTextField txtEmailZoo;
     private com.toedter.calendar.JDateChooser txtFechaAnimal;
     private com.toedter.calendar.JDateChooser txtFechaNacimiento;
+    private com.toedter.calendar.JDateChooser txtFechaSalida;
     private javax.swing.JTextField txtNombreAn;
     private javax.swing.JTextField txtNombreCu;
     private javax.swing.JTextField txtNombreZoo;

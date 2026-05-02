@@ -84,6 +84,9 @@ private long id;
         this.fechaRegistro = fechaRegistro;
     }
     
-    
+    @Override
+    public String toString(){
+        return id + " - " + nombre;
+    }
     
 }

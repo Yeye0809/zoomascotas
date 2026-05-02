@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Date;
+import javax.swing.JComboBox;
 
 import javax.swing.JTable;
 /**
@@ -103,4 +104,32 @@ public class ZoologicoDAO {
         return actualizado;
         
     }
+    
+    public void cargarZoo(JComboBox combo){
+        String query = "SELECT * FROM zoologico ORDER BY zoologico_id ASC;";
+        
+        try(Connection conn = ConexionDB.conectar();
+            PreparedStatement ps = conn.prepareStatement(query)){
+            
+            ResultSet rs  = ps.executeQuery();
+            
+            while( rs.next() ){
+                Zoologico zoologico = new Zoologico();
+                zoologico.setId(rs.getLong("zoologico_id"));
+                zoologico.setNombre(rs.getString("nombre"));
+                zoologico.setCiudad(rs.getString("ciudad"));
+                zoologico.setDireccion(rs.getString("direccion"));
+                zoologico.setTelefono(rs.getLong("telefono"));
+                zoologico.setEmail(rs.getString("email"));
+                Date fechaUtil = new Date( rs.getDate("fecha_registro").getTime());
+                zoologico.setFechaRegistro(fechaUtil);
+                
+                combo.addItem(zoologico);
+            }
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
+    
 }

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Date;
 import java.sql.ResultSet;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 
 /**
@@ -111,6 +112,34 @@ public class AnimalDAO {
         
         
         return actualizado;
+    }
+    
+    public void cargarAnimal(JComboBox combo){
+         String query = "SELECT * FROM animal ORDER BY id_animal ASC";
+         
+        try(Connection conn = ConexionDB.conectar();
+            PreparedStatement ps = conn.prepareStatement(query)){
+      
+            ResultSet rs  = ps.executeQuery();
+            
+            while(rs.next()){
+                Animal animal = new Animal();
+                animal.setIdA(rs.getLong("id_animal"));
+                animal.setNombre(rs.getString("nombre_animal"));
+                animal.setGeneroA(rs.getString("genero_animal"));
+                animal.setTipo(rs.getString("tipo_animal"));
+                animal.setEstadoA(rs.getString("estado_animal"));
+                animal.setIdCuidador(rs.getLong("cuidador_id"));
+                Date fechaUtil = new Date( rs.getDate("fecha_entrada").getTime());
+                animal.setfEntrada(fechaUtil);
+                
+                combo.addItem(animal);
+            }
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
     }
     
 }
