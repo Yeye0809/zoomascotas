@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.sql.ResultSet;
 import javax.swing.JTable;
 /**
  *
@@ -18,6 +19,7 @@ import javax.swing.JTable;
 public class TransferenciaDAO {
     
     DataTableControl controlTabla = new DataTableControl();
+    Transferencia tr;
     
     public boolean registrar(Transferencia tr){
         boolean registrado = false;
@@ -42,5 +44,31 @@ public class TransferenciaDAO {
     public void listar(JTable tabla){
         String query = "SELECT * FROM transferencia";
         controlTabla.generarTabla(query, tabla);
+    }
+    
+    public Transferencia buscar(long id){
+        String query = "SELECT * FROM transferencia WHERE transferencia_id = ?";
+        
+        try(Connection conn = ConexionDB.conectar();
+            PreparedStatement ps = conn.prepareStatement(query)){
+            ps.setLong(1, id);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while( rs.next() ){
+                tr = new Transferencia();
+                tr.setId(rs.getLong("transferencia_id"));
+                tr.setIdAn(rs.getLong("animal_id"));
+                tr.setIdZoo(rs.getLong("zoologico_id"));
+                java.util.Date fechaUtil = new java.util.Date( rs.getDate("fecha_salida").getTime());
+                tr.setFSalida(fechaUtil);                
+            }
+            
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return tr;
     }
 }

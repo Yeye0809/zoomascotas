@@ -105,7 +105,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         txtFechaSalida = new com.toedter.calendar.JDateChooser();
         btnRegistrarTr = new javax.swing.JButton();
         btnActualizarTr = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnBuscarTr = new javax.swing.JButton();
         btnListarTr = new javax.swing.JButton();
         txtBuscarTr = new javax.swing.JTextField();
         jSeparator15 = new javax.swing.JSeparator();
@@ -389,11 +389,12 @@ public class FrZoomascotas extends javax.swing.JFrame {
         btnActualizarTr.setText("Actualizar");
         cardTransferencia.add(btnActualizarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 110, 40));
 
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(59, 130, 246));
-        jButton3.setText("Buscar");
-        cardTransferencia.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 240, 90, 30));
+        btnBuscarTr.setBackground(new java.awt.Color(255, 255, 255));
+        btnBuscarTr.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
+        btnBuscarTr.setForeground(new java.awt.Color(59, 130, 246));
+        btnBuscarTr.setText("Buscar");
+        btnBuscarTr.addActionListener(this::btnBuscarTrActionPerformed);
+        cardTransferencia.add(btnBuscarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 240, 90, 30));
 
         btnListarTr.setBackground(new java.awt.Color(255, 255, 255));
         btnListarTr.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
@@ -825,6 +826,36 @@ public class FrZoomascotas extends javax.swing.JFrame {
         trDAO.listar(tabla);
     }//GEN-LAST:event_btnListarTrActionPerformed
 
+    private void btnBuscarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTrActionPerformed
+       Transferencia tr = trDAO.buscar(Long.parseLong(txtBuscarTr.getText()));
+       
+       if( tr != null ){
+           javax.swing.JOptionPane.showMessageDialog(null, "Transferencia encontrada");
+           
+           for( int i = 1; i < cbAnimalTr.getItemCount(); i++ ){
+               Animal item = cbAnimalTr.getItemAt(i);
+               if( item.getIdA() == tr.getIdAn() ){
+                   cbAnimalTr.setSelectedIndex(i);
+                   break;
+               }
+           }
+           
+           for( int i = 1; i < cbZoologicoTr.getItemCount(); i++){
+               Zoologico item = cbZoologicoTr.getItemAt(i);
+               if( item.getId() == tr.getIdZoo() ){
+                   cbZoologicoTr.setSelectedIndex(i);
+                   break;
+               }
+           }
+           
+           txtFechaSalida.setDate(tr.getFSalida());
+           
+           txtBuscarTr.setText("");
+           
+       }else
+           javax.swing.JOptionPane.showMessageDialog(null, "Transferencia con el ID " + txtBuscarTr + " no existe");
+    }//GEN-LAST:event_btnBuscarTrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -860,6 +891,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JLabel btnAnimal;
     private javax.swing.JButton btnBuscarAn;
     private javax.swing.JButton btnBuscarCu;
+    private javax.swing.JButton btnBuscarTr;
     private javax.swing.JButton btnBuscarZoo;
     private javax.swing.JLabel btnCuidador;
     private javax.swing.JButton btnLimpiar;
@@ -886,7 +918,6 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbGeneroCu;
     private javax.swing.JComboBox<String> cbTipoAn;
     private javax.swing.JComboBox<Zoologico> cbZoologicoTr;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
