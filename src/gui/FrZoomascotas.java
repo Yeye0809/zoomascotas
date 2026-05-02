@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import DAOs.CuidadorDAO;
 import DAOs.TransferenciaDAO;
 import DAOs.ZoologicoDAO;
+import java.util.Date;
 import modelo.*;
 
 
@@ -387,6 +388,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         btnActualizarTr.setBackground(new java.awt.Color(21, 124, 48));
         btnActualizarTr.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizarTr.setText("Actualizar");
+        btnActualizarTr.addActionListener(this::btnActualizarTrActionPerformed);
         cardTransferencia.add(btnActualizarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 110, 40));
 
         btnBuscarTr.setBackground(new java.awt.Color(255, 255, 255));
@@ -855,6 +857,17 @@ public class FrZoomascotas extends javax.swing.JFrame {
        }else
            javax.swing.JOptionPane.showMessageDialog(null, "Transferencia con el ID " + txtBuscarTr + " no existe");
     }//GEN-LAST:event_btnBuscarTrActionPerformed
+
+    private void btnActualizarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTrActionPerformed
+        Animal an = (Animal)cbAnimalTr.getSelectedItem();
+        Zoologico zoo = (Zoologico)cbZoologicoTr.getSelectedItem();
+        Date fecha = txtFechaSalida.getDate();
+        
+        if( trDAO.actualizar(an.getIdA(), zoo.getId(), fecha))
+            javax.swing.JOptionPane.showMessageDialog(null, "Transferencia actualizado");
+        else
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar la transferencia");
+    }//GEN-LAST:event_btnActualizarTrActionPerformed
 
     /**
      * @param args the command line arguments

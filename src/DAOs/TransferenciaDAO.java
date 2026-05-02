@@ -71,4 +71,28 @@ public class TransferenciaDAO {
         
         return tr;
     }
+    
+    public boolean actualizar(long idAn, long idZoo, java.util.Date fecha){
+        boolean actualizado = false;
+        String query = "UPDATE transferencia SET animal_id = ?, zoologico_id = ?,"
+                     + " fecha_salida = ? WHERE transferencia_id = ?";
+        
+        try(Connection conn = ConexionDB.conectar();
+            PreparedStatement ps = conn.prepareStatement(query)){
+            
+            ps.setLong(1, idAn);
+            ps.setLong(2, idZoo);
+            ps.setDate(3, new Date( fecha.getTime() ));
+            ps.setLong(4, tr.getId());
+            
+            int resultado = ps.executeUpdate();
+            
+            actualizado = resultado > 0;
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return actualizado;
+    }
 }
