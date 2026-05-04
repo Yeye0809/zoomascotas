@@ -23,7 +23,7 @@ import modelo.*;
 public class FrZoomascotas extends javax.swing.JFrame {
     
     Design diseños = new Design(this);
-    
+    String usuario;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrZoomascotas.class.getName());
     
     private static CuidadorDAO cuDAO = new CuidadorDAO();
@@ -45,10 +45,11 @@ public class FrZoomascotas extends javax.swing.JFrame {
     /**
      * Creates new form FrZoomascotas
      */
-    public FrZoomascotas() {
+    public FrZoomascotas(String user) {
         initComponents();
         diseños.design();
         setLocationRelativeTo(null);
+        lbNombreUser.setText(user.toUpperCase());
     }
 
     
@@ -68,6 +69,8 @@ public class FrZoomascotas extends javax.swing.JFrame {
         btnTransferencia = new javax.swing.JLabel();
         pnlBtnTransfe = new javax.swing.JPanel();
         btnAnimal = new javax.swing.JLabel();
+        lbNombreUser = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         bgPnlContent = new javax.swing.JPanel();
         pnlCardLayout = new javax.swing.JPanel();
         cardCuidador = new javax.swing.JPanel();
@@ -244,6 +247,17 @@ public class FrZoomascotas extends javax.swing.JFrame {
         pnlBtnTransfe.add(btnAnimal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 40));
 
         pnlMenu.add(pnlBtnTransfe, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 110, 40));
+
+        lbNombreUser.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        lbNombreUser.setForeground(new java.awt.Color(255, 255, 255));
+        lbNombreUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pnlMenu.add(lbNombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 140, 30));
+
+        jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("ZOOMASCOTAS");
+        pnlMenu.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 160, 40));
 
         bgPnl.add(pnlMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 580));
 
@@ -628,7 +642,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarCuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCuActionPerformed
-        Cuidador cu = new Cuidador(Long.parseLong(txtCedula.getText()), Long.parseLong(txtTelefonoCu.getText()), txtNombreCu.getText(),
+        Cuidador cu = new Cuidador(Long.parseLong(txtCedula.getText()), Long.parseLong(txtTelefonoCu.getText()),txtNombreCu.getText(),
                                     txtApellidoCu.getText(),cbGeneroCu.getSelectedItem().toString(), txtEmailCu.getText(), txtFechaNacimiento.getDate());
         if(cuDAO.registrar(cu))
             javax.swing.JOptionPane.showMessageDialog(null, "Cuidador registrado");
@@ -872,27 +886,27 @@ public class FrZoomascotas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrZoomascotas().setVisible(true));
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+//            logger.log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(() -> new FrZoomascotas(int id).setVisible(true));
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPnl;
@@ -934,6 +948,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
@@ -962,6 +977,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JLabel lbFechaAnimal;
     private javax.swing.JLabel lbNombreAn;
     private javax.swing.JLabel lbNombreCu;
+    private javax.swing.JLabel lbNombreUser;
     private javax.swing.JLabel lbNombreZoo;
     private javax.swing.JLabel lbTelefonoCu;
     private javax.swing.JLabel lbTelefonoZoo;

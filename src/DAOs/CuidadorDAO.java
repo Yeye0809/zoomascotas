@@ -30,7 +30,7 @@ public class CuidadorDAO {
     public boolean registrar(Cuidador cuidador){
         boolean registrado = false;
         String query = "INSERT INTO cuidador(cedula, nombre_cuidador, apellido_cuidador, genero_cuidador, telefono_cuidador,"
-                     + "email_cuidador, fecha_nacimiento_cuidador) VALUES(?,?,?,?,?,?,?)";
+                     + "email_cuidador, fecha_nacimiento_cuidador) VALUES(?,?,?,?,?,?,?,?)";
         
         try(Connection conn = ConexionDB.conectar();
             PreparedStatement ps = conn.prepareStatement(query)){
@@ -42,6 +42,7 @@ public class CuidadorDAO {
             ps.setLong(5, cuidador.getTelefono());
             ps.setString(6, cuidador.getEmail());
             ps.setDate(7, new Date( cuidador.getfNaci().getTime()));
+           
             
             int resultado = ps.executeUpdate();
             registrado = resultado > 0;
@@ -53,18 +54,18 @@ public class CuidadorDAO {
         return registrado;
     }
     
-    public void listar(JTable tabla ){
+    public void listar(JTable tabla){
         String query = "SELECT * FROM cuidador;";        
         controlData.generarTabla(query, tabla);
     }
     
-    public Cuidador buscar(long id){
-        String query = "SELECT * FROM cuidador WHERE cedula = ?";
+    public Cuidador buscar(long idCu){
+        String query = "SELECT * FROM cuidador WHERE cedula = ?;";
         
         try(Connection conn = ConexionDB.conectar();
             PreparedStatement ps = conn.prepareStatement(query)){
            
-            ps.setLong(1, id);
+            ps.setLong(1, idCu);
             ResultSet rs = ps.executeQuery();
               while( rs.next() ){
                     cu = new Cuidador();

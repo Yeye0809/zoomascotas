@@ -24,6 +24,7 @@ public class DataTableControl {
         DefaultTableModel modelo;
         try( Connection conn = ConexionDB.conectar();
              PreparedStatement ps = conn.prepareStatement(query)){
+           
             ResultSet rs = ps.executeQuery();
             ResultSetMetaData rsm = rs.getMetaData();
             

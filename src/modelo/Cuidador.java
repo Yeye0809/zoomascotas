@@ -30,7 +30,10 @@ public class Cuidador {
         this.genero = genero;
         this.email = email;
         this.fNaci = fNaci;
+       
     }
+   
+
 
     public long getCedula() {
         return cedula;
