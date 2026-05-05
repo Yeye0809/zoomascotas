@@ -23,7 +23,7 @@ import modelo.*;
 public class FrZoomascotas extends javax.swing.JFrame {
     
     Design diseños = new Design(this);
-    String usuario;
+   
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrZoomascotas.class.getName());
     
     private static CuidadorDAO cuDAO = new CuidadorDAO();
@@ -400,6 +400,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         cardTransferencia.add(btnRegistrarTr, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, 110, 40));
 
         btnActualizarTr.setBackground(new java.awt.Color(21, 124, 48));
+        btnActualizarTr.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnActualizarTr.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizarTr.setText("Actualizar");
         btnActualizarTr.addActionListener(this::btnActualizarTrActionPerformed);
@@ -642,12 +643,42 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarCuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCuActionPerformed
-        Cuidador cu = new Cuidador(Long.parseLong(txtCedula.getText()), Long.parseLong(txtTelefonoCu.getText()),txtNombreCu.getText(),
-                                    txtApellidoCu.getText(),cbGeneroCu.getSelectedItem().toString(), txtEmailCu.getText(), txtFechaNacimiento.getDate());
-        if(cuDAO.registrar(cu))
-            javax.swing.JOptionPane.showMessageDialog(null, "Cuidador registrado");
-        else
-            javax.swing.JOptionPane.showMessageDialog(null, "No se pudo registrar el cuidador");
+        
+        if( txtCedula.getText().trim().matches("\\d+")){
+            if( txtTelefonoCu.getText().trim().matches("\\d+") ){
+                if ( !txtNombreCu.getText().trim().equals("") ){
+                    if( !txtApellidoCu.getText().trim().equals("") ){
+                        if( !cbGeneroCu.getSelectedItem().toString().equals("Genero") ){
+                           if( txtFechaNacimiento.getDate() != null ){
+                                
+                                Cuidador cu = new Cuidador(Long.parseLong(txtCedula.getText()), Long.parseLong(txtTelefonoCu.getText()),txtNombreCu.getText(),
+                                                            txtApellidoCu.getText(),cbGeneroCu.getSelectedItem().toString(), txtEmailCu.getText(), txtFechaNacimiento.getDate());
+                                if(cuDAO.registrar(cu))
+                                    javax.swing.JOptionPane.showMessageDialog(null, "Cuidador registrado");
+                                else
+                                    javax.swing.JOptionPane.showMessageDialog(null, "No se pudo registrar el cuidador");
+
+                                txtCedula.setText("");
+                                txtTelefonoCu.setText("");
+                                txtNombreCu.setText("");
+                                txtApellidoCu.setText("");
+                                cbGeneroCu.setSelectedIndex(0);
+                                txtEmailCu.setText("");
+                                txtFechaNacimiento.setDate(null);   
+                           } else
+                               javax.swing.JOptionPane.showMessageDialog(null, "Fecha de nacimiento obligatoria"); 
+                        }else
+                            javax.swing.JOptionPane.showMessageDialog(null, "Debe de elegir un genero"); 
+                    }else
+                        javax.swing.JOptionPane.showMessageDialog(null, "El apellido es obligatorio"); 
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(null, "EL nombre es obligatorio"); 
+            }else
+                javax.swing.JOptionPane.showMessageDialog(null, "Telefono obligatorio, solo se aceptan numeros");          
+        }else 
+            javax.swing.JOptionPane.showMessageDialog(null, "Cedula obligatoria, solo se aceptan numeros");
+        
+       
         
     }//GEN-LAST:event_btnRegistrarCuActionPerformed
 
@@ -701,20 +732,43 @@ public class FrZoomascotas extends javax.swing.JFrame {
 
     private void btnRegistrarZooActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarZooActionPerformed
         
-        Zoologico zoo = new Zoologico(Long.parseLong(txtTelefonoZoo.getText().trim()), txtNombreZoo.getText().trim(), txtCiudadZoo.getText().trim(),
+        if( !txtNombreZoo.getText().trim().equals("") ){
+            if( !txtCiudadZoo.getText().trim().equals("") ){
+                if( !txtDirecZoo.getText().trim().equals("") ){
+                    if( txtTelefonoZoo.getText().trim().matches("\\d+") ){ 
+                        
+                       Zoologico zoo = new Zoologico(Long.parseLong(txtTelefonoZoo.getText().trim()), txtNombreZoo.getText().trim(), txtCiudadZoo.getText().trim(),
                                       txtDirecZoo.getText().trim(), txtEmailZoo.getText().trim());
-        
-        if (zooDAO.registrar(zoo))
-                javax.swing.JOptionPane.showMessageDialog(null, "Registro Exitoso");
-        else
-             javax.swing.JOptionPane.showMessageDialog(null, "Fallo al registrar");
-        
+                       
+                        if (zooDAO.registrar(zoo))
+                                javax.swing.JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                        else
+                             javax.swing.JOptionPane.showMessageDialog(null, "Fallo al registrar");
+                        
+                        txtNombreZoo.setText("");
+                        txtCiudadZoo.setText("");
+                        txtDirecZoo.setText("");
+                        txtEmailZoo.setText("");
+                        txtTelefonoZoo.setText("");
+
+                    }else
+                        javax.swing.JOptionPane.showMessageDialog(null, "El telefono es obligatorio");
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(null, "La dirreccion es obligatoria");
+            }else
+                javax.swing.JOptionPane.showMessageDialog(null, "La ciudad es obligatoria");
+        }else
+            javax.swing.JOptionPane.showMessageDialog(null, "El nombre es obligatorio");
+              
     }//GEN-LAST:event_btnRegistrarZooActionPerformed
 
     private void btnBuscarCuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCuActionPerformed
+        if( txtBuscarCu.getText().equals("") ) {
+            javax.swing.JOptionPane.showMessageDialog(null, "El campo no puede estar vacio");
+            return;
+        }
         long idCuidador = Long.parseLong(txtBuscarCu.getText().trim());
         Cuidador cu = cuDAO.buscar(idCuidador);
-        
         if( cu != null ){
             javax.swing.JOptionPane.showMessageDialog(null, "Cuidador encontrado");
             
@@ -734,6 +788,11 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarCuActionPerformed
 
     private void btnBuscarZooActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarZooActionPerformed
+        if(txtBuscarZoo.getText().equals("")){
+            javax.swing.JOptionPane.showMessageDialog(null, "El campo no puede estar vacio");
+            return;
+        }
+        
         long idZoo = Long.parseLong(txtBuscarZoo.getText());
         Zoologico zoo = zooDAO.buscar(idZoo);
         
@@ -752,37 +811,103 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarZooActionPerformed
 
     private void btnActualizarCuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarCuActionPerformed
-        if(cuDAO.actualizar( txtNombreCu.getText(), txtApellidoCu.getText(),cbGeneroCu.getSelectedItem().toString(),
-           Long.parseLong(txtTelefonoCu.getText()), txtEmailCu.getText(), txtFechaNacimiento.getDate())){
-            
-            javax.swing.JOptionPane.showMessageDialog(null, "Cuidador Actualizado");
-        }else{
-            javax.swing.JOptionPane.showMessageDialog(null, "No se pudo actualizar el cúuidador");
-        }
+        if( txtCedula.getText().trim().matches("\\d+")){
+            if( txtTelefonoCu.getText().trim().matches("\\d+") ){
+                if ( !txtNombreCu.getText().trim().equals("") ){
+                    if( !txtApellidoCu.getText().trim().equals("") ){
+                        if( !cbGeneroCu.getSelectedItem().toString().equals("Genero") ){
+                           if( txtFechaNacimiento.getDate() != null ){
+                                
+                                if(cuDAO.actualizar( txtNombreCu.getText(), txtApellidoCu.getText(),cbGeneroCu.getSelectedItem().toString(),
+                                    Long.parseLong(txtTelefonoCu.getText()), txtEmailCu.getText(), txtFechaNacimiento.getDate())){
+
+                                     javax.swing.JOptionPane.showMessageDialog(null, "Cuidador Actualizado");
+                                 }else{
+                                     javax.swing.JOptionPane.showMessageDialog(null, "No se pudo actualizar el cúuidador");
+                                 }
+                           } else
+                               javax.swing.JOptionPane.showMessageDialog(null, "Fecha de nacimiento obligatoria"); 
+                        }else
+                            javax.swing.JOptionPane.showMessageDialog(null, "Debe de elegir un genero"); 
+                    }else
+                        javax.swing.JOptionPane.showMessageDialog(null, "El apellido es obligatorio"); 
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(null, "EL nombre es obligatorio"); 
+            }else
+                javax.swing.JOptionPane.showMessageDialog(null, "Telefono obligatorio, solo se aceptan numeros");          
+        }else 
+            javax.swing.JOptionPane.showMessageDialog(null, "Cedula obligatoria, solo se aceptan numeros");
+        
     }//GEN-LAST:event_btnActualizarCuActionPerformed
 
     private void btnActualizarZooActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarZooActionPerformed
+         if( !txtNombreZoo.getText().trim().equals("") ){
+            if( !txtCiudadZoo.getText().trim().equals("") ){
+                if( !txtDirecZoo.getText().trim().equals("") ){
+                    if( txtTelefonoZoo.getText().trim().matches("\\d+") ){ 
+                        
+                       if( zooDAO.actualizar(txtNombreZoo.getText(), txtCiudadZoo.getText(), txtDirecZoo.getText(),
+                                txtEmailZoo.getText(), Long.parseLong(txtTelefonoZoo.getText())))
+
+                            javax.swing.JOptionPane.showMessageDialog(null, "Zoologico Actualizado");
+                        else
+                            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar el zoologico");
+                        
+                        txtNombreZoo.setText("");
+                        txtCiudadZoo.setText("");
+                        txtDirecZoo.setText("");
+                        txtEmailZoo.setText("");
+                        txtTelefonoZoo.setText("");
+
+                    }else
+                        javax.swing.JOptionPane.showMessageDialog(null, "El telefono es obligatorio");
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(null, "La dirreccion es obligatoria");
+            }else
+                javax.swing.JOptionPane.showMessageDialog(null, "La ciudad es obligatoria");
+        }else
+            javax.swing.JOptionPane.showMessageDialog(null, "El nombre es obligatorio");
+         
         
-        if( zooDAO.actualizar(txtNombreZoo.getText(), txtCiudadZoo.getText(), txtDirecZoo.getText(),
-                txtEmailZoo.getText(), Long.parseLong(txtTelefonoZoo.getText())))
-            
-            javax.swing.JOptionPane.showMessageDialog(null, "Zoologico Actualizado");
-        else
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar el zoologico");
     }//GEN-LAST:event_btnActualizarZooActionPerformed
 
     private void btnRegistrarAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarAnActionPerformed
         
-        Cuidador cu = (Cuidador)cbCuidadorAn.getSelectedItem();
-        Animal animal = new Animal(cu.getCedula(), txtNombreAn.getText(), cbTipoAn.getSelectedItem().toString(), cbGeneroAn.getSelectedItem().toString(),
-                                    cbEstadoAn.getSelectedItem().toString(), txtFechaAnimal.getDate());
-                                    
+         if( cbCuidadorAn.getSelectedItem() != null ){
+           if( !txtNombreAn.getText().trim().equals("") ){
+               if( !cbTipoAn.getSelectedItem().toString().trim().equals("Tipo") ){
+                   if( !cbGeneroAn.getSelectedItem().toString().trim().equals("Genero") ){
+                       if( !cbEstadoAn.getSelectedItem().toString().trim().equals("Estado") ){
+                           if( txtFechaAnimal.getDate() != null ){               
+                                Cuidador cu = (Cuidador)cbCuidadorAn.getSelectedItem();
+                                Animal animal = new Animal(cu.getCedula(), txtNombreAn.getText(), cbTipoAn.getSelectedItem().toString(), cbGeneroAn.getSelectedItem().toString(),
+                                                            cbEstadoAn.getSelectedItem().toString(), txtFechaAnimal.getDate());
+
+                                if(anDAO.registrar(animal))
+                                    javax.swing.JOptionPane.showMessageDialog(null, "Animal registrado");
+                                else
+                                    javax.swing.JOptionPane.showMessageDialog(null, "No se pudo registrar el animal");
+
+                                cbCuidadorAn.setSelectedItem(null);
+                                txtNombreAn.setText("");
+                                cbTipoAn.setSelectedIndex(0);
+                                cbGeneroAn.setSelectedIndex(0);
+                                cbEstadoAn.setSelectedIndex(0);
+                                txtFechaAnimal.setDate(null);
+                           }else
+                                javax.swing.JOptionPane.showMessageDialog(null, "Fecha de entrada obligatoria");
+                       }else 
+                           javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un estado");
+                   }else
+                       javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un genero");
+               }else
+                   javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un tipo");
+           }else
+               javax.swing.JOptionPane.showMessageDialog(null, "El nombre es obligatorio");
+       }else
+           javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un cuidador");
         
-        if(anDAO.registrar(animal))
-            javax.swing.JOptionPane.showMessageDialog(null, "Animal registrado");
-        else
-            javax.swing.JOptionPane.showMessageDialog(null, "No se pudo registrar el animal");
-       
+             
     }//GEN-LAST:event_btnRegistrarAnActionPerformed
 
     private void btnListarAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarAnActionPerformed
@@ -790,6 +915,12 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnListarAnActionPerformed
 
     private void btnBuscarAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAnActionPerformed
+       
+        if(txtBuscarAn.getText().equals("")){
+           javax.swing.JOptionPane.showMessageDialog(null, "El campo no puede quedar vacio");
+           return;
+        }
+        
         long idAnimal = Long.parseLong(txtBuscarAn.getText());
         Animal an = anDAO.buscar(idAnimal);
         
@@ -817,25 +948,72 @@ public class FrZoomascotas extends javax.swing.JFrame {
             
         }else
             javax.swing.JOptionPane.showMessageDialog(null, "El animal con el ID " + idAnimal + " no existe");
+        
+        txtBuscarAn.setText("");
     }//GEN-LAST:event_btnBuscarAnActionPerformed
 
     private void btnActualizarAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarAnActionPerformed
-        Cuidador cu = (Cuidador)cbCuidadorAn.getSelectedItem();
         
-        if( anDAO.actualizar(txtNombreAn.getText(), cbTipoAn.getSelectedItem().toString(), cbGeneroAn.getSelectedItem().toString(), cbEstadoAn.getSelectedItem().toString(), cu.getCedula(), txtFechaAnimal.getDate())){
-            javax.swing.JOptionPane.showMessageDialog(null, "El animal actualizado");
-        }else
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar el animal");
+        if( cbCuidadorAn.getSelectedItem() != null ){
+           if( !txtNombreAn.getText().trim().equals("") ){
+               if( !cbTipoAn.getSelectedItem().toString().trim().equals("Tipo") ){
+                   if( !cbGeneroAn.getSelectedItem().toString().trim().equals("Genero") ){
+                       if( !cbEstadoAn.getSelectedItem().toString().trim().equals("Estado") ){
+                           if( txtFechaAnimal.getDate() != null ){               
+                                
+                                
+                                Cuidador cu = (Cuidador)cbCuidadorAn.getSelectedItem();
+
+                                if( anDAO.actualizar(txtNombreAn.getText(), cbTipoAn.getSelectedItem().toString(), cbGeneroAn.getSelectedItem().toString(), cbEstadoAn.getSelectedItem().toString(), cu.getCedula(), txtFechaAnimal.getDate())){
+                                    javax.swing.JOptionPane.showMessageDialog(null, "El animal actualizado");
+                                }else
+                                    javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar el animal");
+                               
+                                cbCuidadorAn.setSelectedItem(null);
+                                txtNombreAn.setText("");
+                                cbTipoAn.setSelectedIndex(0);
+                                cbGeneroAn.setSelectedIndex(0);
+                                cbEstadoAn.setSelectedIndex(0);
+                                txtFechaAnimal.setDate(null);
+                           }else
+                                javax.swing.JOptionPane.showMessageDialog(null, "Fecha de entrada obligatoria");
+                       }else 
+                           javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un estado");
+                   }else
+                       javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un genero");
+               }else
+                   javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un tipo");
+           }else
+               javax.swing.JOptionPane.showMessageDialog(null, "El nombre es obligatorio");
+       }else
+           javax.swing.JOptionPane.showMessageDialog(null, "Debe elegir un cuidador");
+       
     }//GEN-LAST:event_btnActualizarAnActionPerformed
 
     private void btnRegistrarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarTrActionPerformed
-        Animal an = (Animal)cbAnimalTr.getSelectedItem();
-        Zoologico zoo = (Zoologico)cbZoologicoTr.getSelectedItem();
         
-        if(trDAO.registrar(new Transferencia(an.getIdA(), zoo.getId(), txtFechaSalida.getDate())))
-            javax.swing.JOptionPane.showMessageDialog(null, "Transferencia registrada");
-        else
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al registrar transferencia");
+        if(cbAnimalTr.getSelectedItem() != null ){
+            if( cbZoologicoTr.getSelectedItem() !=  null ){
+                if( txtFechaSalida.getDate() != null){
+                    Animal an = (Animal)cbAnimalTr.getSelectedItem();
+                    Zoologico zoo = (Zoologico)cbZoologicoTr.getSelectedItem();
+
+                    if(trDAO.registrar(new Transferencia(an.getIdA(), zoo.getId(), txtFechaSalida.getDate())))
+                        javax.swing.JOptionPane.showMessageDialog(null, "Transferencia registrada");
+                    else
+                        javax.swing.JOptionPane.showMessageDialog(null, "Error al registrar transferencia");
+                    
+                    cbAnimalTr.setSelectedItem(null);
+                    cbZoologicoTr.setSelectedItem(null);
+                    txtFechaSalida.setDate(null);
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(null, "Selecciona una fecha");
+            }else
+                javax.swing.JOptionPane.showMessageDialog(null, "Selecciona un zoologico");
+        }else
+            javax.swing.JOptionPane.showMessageDialog(null, "Selecciona un animal");
+        
+        
     }//GEN-LAST:event_btnRegistrarTrActionPerformed
 
     private void btnListarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarTrActionPerformed
@@ -843,7 +1021,13 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnListarTrActionPerformed
 
     private void btnBuscarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTrActionPerformed
-       Transferencia tr = trDAO.buscar(Long.parseLong(txtBuscarTr.getText()));
+       
+        if(txtBuscarTr.getText().equals("")){
+           javax.swing.JOptionPane.showMessageDialog(null, "El campo no puede estar vacio");
+           return;
+        }
+        
+        Transferencia tr = trDAO.buscar(Long.parseLong(txtBuscarTr.getText()));
        
        if( tr != null ){
            javax.swing.JOptionPane.showMessageDialog(null, "Transferencia encontrada");
@@ -873,14 +1057,27 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarTrActionPerformed
 
     private void btnActualizarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTrActionPerformed
-        Animal an = (Animal)cbAnimalTr.getSelectedItem();
-        Zoologico zoo = (Zoologico)cbZoologicoTr.getSelectedItem();
-        Date fecha = txtFechaSalida.getDate();
-        
-        if( trDAO.actualizar(an.getIdA(), zoo.getId(), fecha))
-            javax.swing.JOptionPane.showMessageDialog(null, "Transferencia actualizado");
-        else
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar la transferencia");
+    if(cbAnimalTr.getSelectedItem() != null ){
+            if( cbZoologicoTr.getSelectedItem() !=  null ){
+                if( txtFechaSalida.getDate() != null){
+                    Animal an = (Animal)cbAnimalTr.getSelectedItem();
+                    Zoologico zoo = (Zoologico)cbZoologicoTr.getSelectedItem();
+                    Date fecha = txtFechaSalida.getDate();
+
+                    if( trDAO.actualizar(an.getIdA(), zoo.getId(), fecha))
+                        javax.swing.JOptionPane.showMessageDialog(null, "Transferencia actualizado");
+                    else
+                        javax.swing.JOptionPane.showMessageDialog(null, "Error al actualizar la transferencia");
+                    
+                    cbAnimalTr.setSelectedItem(null);
+                    cbZoologicoTr.setSelectedItem(null);
+                    txtFechaSalida.setDate(null);
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(null, "Selecciona una fecha");
+            }else
+                javax.swing.JOptionPane.showMessageDialog(null, "Selecciona un zoologico");
+        }else
+            javax.swing.JOptionPane.showMessageDialog(null, "Selecciona un animal");
     }//GEN-LAST:event_btnActualizarTrActionPerformed
 
     /**

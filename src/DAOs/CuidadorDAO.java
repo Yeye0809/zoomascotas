@@ -30,7 +30,7 @@ public class CuidadorDAO {
     public boolean registrar(Cuidador cuidador){
         boolean registrado = false;
         String query = "INSERT INTO cuidador(cedula, nombre_cuidador, apellido_cuidador, genero_cuidador, telefono_cuidador,"
-                     + "email_cuidador, fecha_nacimiento_cuidador) VALUES(?,?,?,?,?,?,?,?)";
+                     + "email_cuidador, fecha_nacimiento_cuidador) VALUES(?,?,?,?,?,?,?)";
         
         try(Connection conn = ConexionDB.conectar();
             PreparedStatement ps = conn.prepareStatement(query)){
