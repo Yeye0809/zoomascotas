@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import DAOs.CuidadorDAO;
 import DAOs.TransferenciaDAO;
 import DAOs.ZoologicoDAO;
+import controlador.ShowCard;
 import java.util.Date;
 import modelo.*;
 
@@ -23,6 +24,7 @@ import modelo.*;
 public class FrZoomascotas extends javax.swing.JFrame {
     
     Design diseños = new Design(this);
+    String user;
    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrZoomascotas.class.getName());
     
@@ -31,10 +33,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private static AnimalDAO anDAO = new AnimalDAO();
     private static TransferenciaDAO trDAO = new TransferenciaDAO();
     
-    private  void showCard(String card){
-        CardLayout cl = (CardLayout)pnlCardLayout.getLayout();
-        cl.show(pnlCardLayout, card);
-    }
+   
     
    private void limpiarTabla(){       
        DefaultTableModel modelo =  (DefaultTableModel) tabla.getModel();
@@ -48,6 +47,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     public FrZoomascotas(String user) {
         initComponents();
         diseños.design();
+        this.user = user;
         setLocationRelativeTo(null);
         lbNombreUser.setText(user.toUpperCase());
     }
@@ -507,7 +507,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         cardReporte.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setText("REPORTE");
-        cardReporte.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 30, -1, -1));
+        cardReporte.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
         pnlCardLayout.add(cardReporte, "cardReporte");
 
@@ -692,7 +692,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
 
     private void btnZooMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnZooMouseClicked
         tabla.setModel(new DefaultTableModel());
-        showCard("cardZoo");
+        ShowCard.showCard("cardZoo", pnlCardLayout);
     }//GEN-LAST:event_btnZooMouseClicked
 
     private void pnlBtnZooMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBtnZooMouseClicked
@@ -704,7 +704,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         cbCuidadorAn.removeAllItems();
         cbCuidadorAn.addItem(null);
         cuDAO.cargarCuidadoresCb(cbCuidadorAn);
-        showCard("cardAnimal");
+        ShowCard.showCard("cardAnimal", pnlCardLayout);
     }//GEN-LAST:event_btnAnimalMouseClicked
 
     private void btnTransferenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransferenciaMouseClicked
@@ -714,16 +714,18 @@ public class FrZoomascotas extends javax.swing.JFrame {
         cbZoologicoTr.removeAllItems();
         cbZoologicoTr.addItem(null);
         zooDAO.cargarZoo(cbZoologicoTr);
-        showCard("cardTrans");
+        ShowCard.showCard("cardTrans", pnlCardLayout);
     }//GEN-LAST:event_btnTransferenciaMouseClicked
 
     private void btnReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReporteMouseClicked
-        showCard("cardReporte");
+       FrReportes ventanaReportes = new FrReportes(user);
+       ventanaReportes.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnReporteMouseClicked
 
     private void btnCuidadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCuidadorMouseClicked
         tabla.setModel(new DefaultTableModel());
-        showCard("cardCuidador");
+        ShowCard.showCard("cardCuidador", pnlCardLayout);
     }//GEN-LAST:event_btnCuidadorMouseClicked
 
     private void btnListarZooActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarZooActionPerformed

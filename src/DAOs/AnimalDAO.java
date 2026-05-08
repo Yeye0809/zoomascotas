@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.LinkedList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
@@ -140,6 +141,38 @@ public class AnimalDAO {
             ex.printStackTrace();
         }
         
+    }
+    
+    public LinkedList<Animal> consultaReporte(String query, Object... params){
+        LinkedList<Animal> listaAn= new LinkedList<>();
+        
+        try(Connection conn = ConexionDB.conectar();
+            PreparedStatement ps = conn.prepareStatement(query);){
+            
+            for(int i = 0; i < params.length; i++){
+                ps.setObject(i+1, params[i]);
+            }
+            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Animal an = new Animal();
+                an.setIdA(rs.getLong("id_animal"));
+                an.setNombre(rs.getString("nombre_animal"));
+                an.setGeneroA(rs.getString("genero_animal"));
+                an.setTipo(rs.getString("tipo_animal"));
+                an.setEstadoA(rs.getString("estado_animal"));
+                an.setIdCuidador(rs.getLong("cuidador_id"));
+                Date fechaUtil = new Date( rs.getDate("fecha_entrada").getTime());
+                an.setfEntrada(fechaUtil);
+                
+                listaAn.add(an);
+            }
+            
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return listaAn;
     }
     
 }

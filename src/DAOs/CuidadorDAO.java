@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Date;
+import java.util.LinkedList;
 import javax.swing.JComboBox;
 
 import javax.swing.JTable;
@@ -139,6 +140,39 @@ public class CuidadorDAO {
             ex.printStackTrace();
         }
                 
+    }
+    
+    public LinkedList<Cuidador> consultaReporte(String query, Object... params){
+        LinkedList<Cuidador> listaCu = new LinkedList<>();
+        
+        try(Connection conn = ConexionDB.conectar();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ){
+            
+            for(int i = 0; i < params.length; i++){
+                ps.setObject(i + 1, params[i]);
+            }
+            
+            ResultSet rs = ps.executeQuery();
+            while( rs.next() ){
+                Cuidador cu = new Cuidador();
+                cu.setCedula(rs.getLong("cedula"));
+                cu.setNombre(rs.getString("nombre_cuidador"));
+                cu.setApellido(rs.getString("apellido_cuidador"));
+                cu.setGenero(rs.getString("genero_cuidador"));
+                cu.setTelefono(rs.getLong("telefono_cuidador"));
+                cu.setEmail(rs.getString("email_cuidador"));
+                java.util.Date fechaUtil = new java.util.Date(rs.getDate("fecha_nacimiento_cuidador").getTime());
+                cu.setfIngreso(fechaUtil);
+                
+                listaCu.add(cu);
+            }
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
+        return listaCu;
     }
     
 }

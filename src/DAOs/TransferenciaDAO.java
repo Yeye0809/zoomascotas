@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.LinkedList;
 import javax.swing.JTable;
 /**
  *
@@ -94,5 +95,34 @@ public class TransferenciaDAO {
         }
         
         return actualizado;
+    }
+    
+    public  LinkedList<Transferencia> consultaReporte(String query, Object... params){
+        LinkedList<Transferencia> listaTr = new LinkedList<>();
+        
+        try(Connection conn = ConexionDB.conectar();
+            PreparedStatement ps = conn.prepareStatement(query)){
+            
+            for( int i = 0; i < params.length;  i ++){
+                ps.setObject(i +1, params[i]);
+            }
+            
+            ResultSet rs = ps.executeQuery();
+              while( rs.next() ){
+                Transferencia tr = new Transferencia();
+                tr.setId(rs.getLong("transferencia_id"));
+                tr.setIdAn(rs.getLong("animal_id"));
+                tr.setIdZoo(rs.getLong("zoologico_id"));
+                java.util.Date fechaUtil = new java.util.Date( rs.getDate("fecha_salida").getTime());
+                tr.setFSalida(fechaUtil);   
+                
+                listaTr.add(tr);
+            }            
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }      
+        
+        return listaTr;
     }
 }
