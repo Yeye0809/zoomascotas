@@ -115,6 +115,8 @@ public class AnimalDAO {
         return actualizado;
     }
     
+    
+    //Carga los animales en los JComboBox
     public void cargarAnimal(JComboBox combo){
          String query = "SELECT * FROM animal ORDER BY id_animal ASC";
          
@@ -142,6 +144,7 @@ public class AnimalDAO {
         }
         
     }
+    
     
     public LinkedList<Animal> consultaReporte(String query, Object... params){
         LinkedList<Animal> listaAn= new LinkedList<>();

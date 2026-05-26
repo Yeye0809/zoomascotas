@@ -5,7 +5,6 @@
 package gui;
 
 import DAOs.AnimalDAO;
-import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JPanel;
 import DAOs.CuidadorDAO;
@@ -708,6 +707,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnimalMouseClicked
 
     private void btnTransferenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransferenciaMouseClicked
+        tabla.setModel(new DefaultTableModel());
         cbAnimalTr.removeAllItems();
         cbAnimalTr.addItem(null);
         anDAO.cargarAnimal(cbAnimalTr);

@@ -236,8 +236,6 @@ public class FrLogin extends javax.swing.JFrame {
         if(userDAO.loginUser(user, pass)){
             
             JOptionPane.showMessageDialog(null, "Bienvenido");
-//            Sesion.idUsuario = userDAO.obtenerIdUsuario(user);
-//             int id = Sesion.idUsuario;
              FrZoomascotas ventanaZoo =  new FrZoomascotas(user);
              ventanaZoo.setVisible(true);
             dispose();

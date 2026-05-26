@@ -19,6 +19,8 @@ public class ConexionDB {
     private static final String usuario = "postgres";
     private static final String password = "2468";
     
+    
+    // Realiza la conexion a la base de datos
     public static Connection conectar(){
         Connection conexion = null;
         try{
