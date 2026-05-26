@@ -23,10 +23,11 @@ import modelo.*;
 public class FrZoomascotas extends javax.swing.JFrame {
     
     Design diseños = new Design(this);
-    String user;
+    //Apuntador del usuario
    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrZoomascotas.class.getName());
     
+    //Se hace referencia a los DAOs para poder acceder a sus metodos
     private static CuidadorDAO cuDAO = new CuidadorDAO();
     private static ZoologicoDAO zooDAO = new ZoologicoDAO();
     private static AnimalDAO anDAO = new AnimalDAO();
@@ -34,6 +35,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     
    
     
+   //Metodo para limpiar las filas de la tabla
    private void limpiarTabla(){       
        DefaultTableModel modelo =  (DefaultTableModel) tabla.getModel();
        modelo.setRowCount(0);
@@ -43,12 +45,10 @@ public class FrZoomascotas extends javax.swing.JFrame {
     /**
      * Creates new form FrZoomascotas
      */
-    public FrZoomascotas(String user) {
+    public FrZoomascotas() {
         initComponents();
         diseños.design();
-        this.user = user;
         setLocationRelativeTo(null);
-        lbNombreUser.setText(user.toUpperCase());
     }
 
     
@@ -68,7 +68,6 @@ public class FrZoomascotas extends javax.swing.JFrame {
         btnTransferencia = new javax.swing.JLabel();
         pnlBtnTransfe = new javax.swing.JPanel();
         btnAnimal = new javax.swing.JLabel();
-        lbNombreUser = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         bgPnlContent = new javax.swing.JPanel();
         pnlCardLayout = new javax.swing.JPanel();
@@ -246,11 +245,6 @@ public class FrZoomascotas extends javax.swing.JFrame {
         pnlBtnTransfe.add(btnAnimal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 40));
 
         pnlMenu.add(pnlBtnTransfe, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 110, 40));
-
-        lbNombreUser.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        lbNombreUser.setForeground(new java.awt.Color(255, 255, 255));
-        lbNombreUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pnlMenu.add(lbNombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 140, 30));
 
         jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -641,6 +635,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Boton de registrar cuidador con sus validaciones
     private void btnRegistrarCuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCuActionPerformed
         
         if( txtCedula.getText().trim().matches("\\d+")){
@@ -650,8 +645,11 @@ public class FrZoomascotas extends javax.swing.JFrame {
                         if( !cbGeneroCu.getSelectedItem().toString().equals("Genero") ){
                            if( txtFechaNacimiento.getDate() != null ){
                                 
+                               //Se crea un objeto cuidador
                                 Cuidador cu = new Cuidador(Long.parseLong(txtCedula.getText()), Long.parseLong(txtTelefonoCu.getText()),txtNombreCu.getText(),
                                                             txtApellidoCu.getText(),cbGeneroCu.getSelectedItem().toString(), txtEmailCu.getText(), txtFechaNacimiento.getDate());
+                               
+                                //Se envia el cuidador como parametro en el metodo registrar
                                 if(cuDAO.registrar(cu))
                                     javax.swing.JOptionPane.showMessageDialog(null, "Cuidador registrado");
                                 else
@@ -681,6 +679,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnRegistrarCuActionPerformed
 
+    //Boton para listar los cuidadores en la tabla
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
          cuDAO.listar(tabla);
     }//GEN-LAST:event_btnListarActionPerformed
@@ -718,7 +717,7 @@ public class FrZoomascotas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransferenciaMouseClicked
 
     private void btnReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReporteMouseClicked
-       FrReportes ventanaReportes = new FrReportes(user);
+       FrReportes ventanaReportes = new FrReportes();
        ventanaReportes.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_btnReporteMouseClicked
@@ -1085,27 +1084,27 @@ public class FrZoomascotas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-//            logger.log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(() -> new FrZoomascotas(int id).setVisible(true));
-//    }
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new FrZoomascotas().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPnl;
@@ -1176,7 +1175,6 @@ public class FrZoomascotas extends javax.swing.JFrame {
     private javax.swing.JLabel lbFechaAnimal;
     private javax.swing.JLabel lbNombreAn;
     private javax.swing.JLabel lbNombreCu;
-    private javax.swing.JLabel lbNombreUser;
     private javax.swing.JLabel lbNombreZoo;
     private javax.swing.JLabel lbTelefonoCu;
     private javax.swing.JLabel lbTelefonoZoo;

@@ -22,8 +22,11 @@ import javax.swing.JTable;
 public class AnimalDAO {
     
     DataTableControl tablaControl = new DataTableControl();
+    
+    //Apuntador del animal buscado por ID
     Animal an =  null;
     
+    //Metodo para registrar animales en la base de datos
     public boolean registrar(Animal an){
         String query = "INSERT INTO animal(nombre_animal, tipo_animal, genero_animal, estado_animal,"
                      + "fecha_entrada, cuidador_id) VALUES(?,?,?,?,?,?);";
@@ -51,12 +54,13 @@ public class AnimalDAO {
         return registrado;
     }
     
-    
+    //Metodo para listar los animales en la tabla
     public void listar(JTable tabla){
         String query = "SELECT * FROM animal ORDER BY id_animal ASC";
         tablaControl.generarTabla(query, tabla);
     }
     
+    //Busca un animal por ID en la base de datos
     public Animal buscar(long id){
         
         String query = "SELECT * FROM animal WHERE id_animal = ?";

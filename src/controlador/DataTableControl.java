@@ -20,6 +20,7 @@ import java.sql.ResultSetMetaData;
  */
 public class DataTableControl {   
         
+    //Inserta los metadatos en la tabla dinamicamente segun el query enviado
     public void generarTabla(String query, JTable tabla){
         DefaultTableModel modelo;
         try( Connection conn = ConexionDB.conectar();
@@ -28,17 +29,23 @@ public class DataTableControl {
             ResultSet rs = ps.executeQuery();
             ResultSetMetaData rsm = rs.getMetaData();
             
+            //crea una matriz vacia
             String data[][] = {};
+            //crea un vector vacio con la cantidad de columnas que hayan en la tabla de la base de datos
+            //Segun el query pasado
             String[] col = new String[rsm.getColumnCount()];
             
+            //extrae los nombres de las columnas de la tabla de la BD y los guarda en el vector
             for(int i = 0; i < col.length; i++){
                 col[i] = rsm.getColumnName(i + 1);
             }
             
+            //se crea un numeo modelo de Jtable
             modelo = new DefaultTableModel(data, col);
             
             tabla.setModel(modelo);
             
+            //Se carga los datos de la tabla de la BD en el JTable
             while( rs.next() ){
                 modelo.insertRow(0, new Object[]{});
                 for( int i = 0; i < col.length; i++ ){

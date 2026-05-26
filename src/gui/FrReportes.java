@@ -32,9 +32,8 @@ public class FrReportes extends javax.swing.JFrame {
     /**
      * Creates new form FrReportes
      */
-    public FrReportes(String user) {
+    public FrReportes() {
         initComponents();
-        this.user = user;
         setLocationRelativeTo(null);
         
         cuDAO.cargarCuidadoresCb(cbReporteCu);
@@ -584,7 +583,7 @@ public class FrReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrZoomascotas ventanaMain = new FrZoomascotas(user);
+        FrZoomascotas ventanaMain = new FrZoomascotas();
         ventanaMain.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

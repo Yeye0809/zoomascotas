@@ -17,7 +17,7 @@ public class Design {
     public Design(FrZoomascotas vista){
         this.vista = vista;
     }
-    
+    //Diseño de paneles
     public void design(){        
         vista.getPnlMenu().setBackground(Color.decode("#1E3A5F"));
         vista.getBgPnlContent().setBackground(Color.decode("#F3F4F6"));
